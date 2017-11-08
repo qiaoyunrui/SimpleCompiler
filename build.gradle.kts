@@ -4,7 +4,7 @@ plugins {
 }
 
 application {
-    mainClassName = "demo.AppKt"
+    mainClassName = "me.juhezi.compiler.AppKt"
 }
 
 dependencies {
@@ -14,3 +14,5 @@ dependencies {
 repositories {
     jcenter()
 }
+
+//Should Read the Source Code
