@@ -1,9 +1,0 @@
-task juhezi {
-    println "Hello"
-}
-
-dependencies {
-    compile "com.google.code.gson:gson:2.8.2"
-    compile project(':base')
-    compile fileTree()
-}

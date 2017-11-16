@@ -1,5 +1,10 @@
 package me.juhezi.compiler
 
+import me.juhezi.compiler.io.Input
+import me.juhezi.compiler.io.Output
+import me.juhezi.compiler.io.string.StringInput
+import me.juhezi.compiler.io.string.StringOutput
+
 /**
  * 中缀表达式变后缀表达式
  * Created by Juhezi on 2017/11/8.
@@ -18,43 +23,47 @@ package me.juhezi.compiler
  */
 class Parser {
 
-    companion object {
-        var lookahead = 0
-    }
-
-    init {
-        lookahead = System.`in`.read()
-    }
+    private var lookahead: Char = 0.toChar()
+    lateinit var input: Input
+    var output: Output = StringOutput()
+        private set
 
     fun expr() {
+        lookahead = input.read()
         term()
-        while (true) {
-            when (lookahead) {
-                '+'.toInt() -> {
-                    match('+'.toInt())
-                    term()
-                    print('+')
-                }
-                '-'.toInt() -> {
-                    match('-'.toInt())
-                    term()
-                    print('-')
-                }
-                else -> return
+        rest()
+    }
+
+    private fun rest() {
+        when (lookahead) {
+            '+' -> {
+                match('+')
+                term()
+                output.write('+')
+                rest()
+            }
+            '-' -> {
+                match('-')
+                term()
+                output.write('-')
+                rest()
+            }
+            else -> {
+                /*不做任何处理*/
             }
         }
     }
 
     private fun term() {
-        if (Character.isDigit(lookahead.toChar())) {
-            print(lookahead.toChar()) //Need Change
+        if (Character.isDigit(lookahead)) {
+            output.write(lookahead)
             match(lookahead)
         } else throw Error("syntax error")
     }
 
-    private fun match(t: Int) {
+    private fun match(t: Char) {
         if (lookahead == t) {
-            lookahead = System.`in`.read()
+            lookahead = input.read()
         } else throw Error("syntax error")
     }
 

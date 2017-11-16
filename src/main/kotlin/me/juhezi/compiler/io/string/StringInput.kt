@@ -19,12 +19,14 @@ class StringInput : Input, Iterator<Char> {
     override fun next(): Char {
         val i = mCursor
         if (i >= mStringBuilder.length) {
-            throw NoSuchElementException()
+            return 0.toChar()
         }
         mCursor = i + 1
         return mStringBuilder[i]
     }
 
-    fun build(function: StringBuilder.() -> Unit) = mStringBuilder.apply(function)
-
+    fun build(function: StringBuilder.() -> Unit): StringInput {
+        mStringBuilder.apply(function)
+        return this
+    }
 }
